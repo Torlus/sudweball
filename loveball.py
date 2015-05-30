@@ -18,13 +18,16 @@ followers_info = {}
 random.seed()
 last_dm = 0
 
+timeout = 60
+timeout_max = 16 * 60
 
 def handle(e):
     print(e.response)
     if str(e.response).find('429') >= 0:
-        time.sleep(60)
+        time.sleep(timeout)
 
 while True:
+    print("# Main loop")
     followers_list = []
     try:
         for follower in tweepy.Cursor(api.followers).items():
@@ -70,7 +73,7 @@ while True:
         continue
 
     message = None
-    for n in range(3):
+    for n in range(6):
         time.sleep(20)
         try:
             for dm in api.direct_messages(since_id=last_dm):
